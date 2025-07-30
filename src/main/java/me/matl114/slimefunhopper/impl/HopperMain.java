@@ -1,19 +1,18 @@
 package me.matl114.slimefunhopper.impl;
 
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
-import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
-import me.matl114.matlib.core.AddonInitialization;
-import me.matl114.matlib.core.UtilInitialization;
-import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
+import java.util.logging.Level;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.logging.Level;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
+import me.matl114.matlib.core.UtilInitialization;
+import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 
 public class HopperMain extends JavaPlugin implements SlimefunAddon {
     public static String username;

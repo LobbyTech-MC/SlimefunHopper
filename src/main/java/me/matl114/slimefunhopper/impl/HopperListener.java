@@ -1,16 +1,10 @@
 package me.matl114.slimefunhopper.impl;
 
-import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap;
-import me.matl114.matlib.nmsMirror.core.PosEnum;
-import me.matl114.matlib.nmsMirror.impl.CraftBukkit;
-import me.matl114.matlib.nmsMirror.impl.NMSItem;
-import me.matl114.matlib.nmsUtils.LevelUtils;
-import me.matl114.matlib.utils.WorldUtils;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import static me.matl114.matlib.nmsMirror.impl.NMSItem.CONTAINER;
+import static me.matl114.matlib.nmsMirror.impl.NMSItem.ITEMSTACK;
+import static me.matl114.matlib.nmsMirror.impl.NMSLevel.LEVEL;
+import static me.matl114.matlib.nmsMirror.impl.NMSLevel.TILE_ENTITIES;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -22,10 +16,17 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 
-import static me.matl114.matlib.nmsMirror.impl.NMSItem.CONTAINER;
-import static me.matl114.matlib.nmsMirror.impl.NMSItem.ITEMSTACK;
-import static me.matl114.matlib.nmsMirror.impl.NMSLevel.LEVEL;
-import static me.matl114.matlib.nmsMirror.impl.NMSLevel.TILE_ENTITIES;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap;
+import me.matl114.matlib.nmsMirror.core.PosEnum;
+import me.matl114.matlib.nmsMirror.impl.CraftBukkit;
+import me.matl114.matlib.nmsMirror.impl.NMSItem;
+import me.matl114.matlib.nmsUtils.LevelUtils;
+import me.matl114.matlib.utils.WorldUtils;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public class HopperListener implements Listener {
     int override;

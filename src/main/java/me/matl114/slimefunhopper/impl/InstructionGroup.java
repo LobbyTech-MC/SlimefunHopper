@@ -1,5 +1,15 @@
 package me.matl114.slimefunhopper.impl;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
+
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -9,12 +19,6 @@ import me.matl114.matlib.implement.slimefun.menu.menuGroup.CustomMenuGroup;
 import me.matl114.matlib.slimefunUtils.SlimefunRegistryUtils;
 import me.matl114.matlib.utils.AddUtils;
 import me.matl114.matlib.utils.inventory.itemStacks.CleanItemStack;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
-
-import java.util.*;
 
 public class InstructionGroup  implements Manager {
     Plugin pl;
@@ -36,16 +40,16 @@ public class InstructionGroup  implements Manager {
         );
         ItemStack info2 = new CleanItemStack(
             Material.HOPPER,
-            AddUtils.colorRandomString("功能: 漏斗将可直接和粘液机器交互"),
-            "&7本附属使漏斗可以直接抓取和推送粘液机器中的物品",
+            AddUtils.colorRandomString("漏斗现可与粘液科技机器交互"),
+            "&7现在漏斗可以直接吸取和输送粘液科技机器中的物品了",
             "&7将漏斗像与原版箱子交互一样放置",
             "&7即可交互粘液机器的槽位",
             "&7其中,当漏斗位于机器下方,抓取机器的时候",
             "&7将只会抓取机器的可输出槽位",
-            "&7其他情况,只会向机器的可输入槽位输入",
-            "&7漏斗的速度&a默认和原版漏斗一致",
-            "&7可以在spigot.yml中修改原版速度的货运速度",
-            "&7也可以在本附属的配置文件中专门修改对粘液机器的漏斗传输速度"
+            "&7其他情况,只会向机器的可输入槽位输入"
+            //"&7漏斗的速度&a默认和原版漏斗一致",
+            //"&7可以在spigot.yml中修改原版速度的货运速度",
+            //"&7也可以在本附属的配置文件中专门修改对粘液机器的漏斗传输速度"
         );
         this.group = new CustomItemGroup(
             new NamespacedKey("slimefunhopper","instruction"),
