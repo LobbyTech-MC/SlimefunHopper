@@ -47,6 +47,7 @@ public class HopperMain extends JavaPlugin implements SlimefunAddon {
             .onEnable()
             .cast()
         ;
+        instance = this;
         Config addonConfig = new Config(this);
         Bukkit.getServer().getPluginManager().registerEvents(new HopperListener(addonConfig), this);
         group = new InstructionGroup()
