@@ -16,7 +16,7 @@
         </includes>
       </resource>
     </resources>
-    <finalName>${project.name} v${project.version}</finalName>
+    <finalName>[sf]${project.name} v${project.version}</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
@@ -89,7 +89,7 @@
     <dependency>
       <groupId>com.github.SlimefunGuguProject</groupId>
       <artifactId>Slimefun4</artifactId>
-      <version>2025.1</version>
+      <version>master-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

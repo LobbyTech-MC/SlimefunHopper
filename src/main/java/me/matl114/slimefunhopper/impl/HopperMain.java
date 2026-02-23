@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
+import lombok.Getter;
 import me.matl114.matlib.core.UtilInitialization;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 
@@ -18,6 +19,8 @@ public class HopperMain extends JavaPlugin implements SlimefunAddon {
     public static String username;
     public static String repo;
     public static String branch;
+    @Getter
+    public static HopperMain instance;
     static{
         username="m1919810";
         repo="SlimefunHopper";
