@@ -5,7 +5,6 @@ import static me.matl114.matlib.nmsMirror.impl.NMSItem.ITEMSTACK;
 import static me.matl114.matlib.nmsMirror.impl.NMSLevel.LEVEL;
 import static me.matl114.matlib.nmsMirror.impl.NMSLevel.TILE_ENTITIES;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -16,11 +15,10 @@ import org.bukkit.event.inventory.HopperInventorySearchEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
@@ -31,11 +29,9 @@ import me.matl114.matlib.nmsMirror.impl.CraftBukkit;
 import me.matl114.matlib.nmsMirror.impl.NMSItem;
 import me.matl114.matlib.nmsUtils.LevelUtils;
 import me.matl114.matlib.utils.WorldUtils;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
-@EnableAsync
 public class HopperListener implements Listener {
     int override;
     public HopperListener(Config server){
@@ -61,7 +57,6 @@ public class HopperListener implements Listener {
         FULL_INVENTORY.setItem(0, ChestMenuUtils.getBackground().clone());
     }
     @EventHandler(priority = EventPriority.MONITOR)
-    @Async
     public void testSlimefunInventoryHopper(HopperInventorySearchEvent hopper){
         Location blockLocation = hopper.getBlock().getLocation();
         SlimefunBlockData blockData = StorageCacheUtils.getBlock(blockLocation);
@@ -112,47 +107,13 @@ public class HopperListener implements Listener {
                     }
                 }
             }
-    	});
-        
-
-    }
-
-    @Async
-    public void limitGrabbingSlots(BlockMenu sf, Block hopperBlock){
-    	Bukkit.getScheduler().runTaskAsynchronously(HopperMain.getInstance(), () -> {
-    		Object slimefunContainer = CraftBukkit.INVENTORYS.getInventory(sf.getInventory());
-            Object hopperContainer = LevelUtils.getBlockEntityAsync(hopperBlock, false);
-            int originalValue = 1;
-            Object sipigotConfig = null;
+        }finally {
             if(override > 0){
-                sipigotConfig = getConfig(sf.getLocation().getWorld());
-                originalValue = CraftBukkit.SPIGOT_CONFIG.hopperAmountGetter(sipigotConfig);
-                CraftBukkit.SPIGOT_CONFIG.hopperAmountSetter(sipigotConfig, override);
+                CraftBukkit.SPIGOT_CONFIG.hopperAmountSetter(sipigotConfig, originalValue);
             }
-            try{
-                if(TILE_ENTITIES.isHopper(hopperContainer)){
-                    var world = WorldUtils.getHandledWorld(sf.getLocation().getWorld());
-                    var direction = PosEnum.DIR_DOWN;
-                    TILE_ENTITIES.hopper$setSkipPullModeEventFire(true);
-                    int[] access = sf.getPreset().getSlotsAccessedByItemTransport(sf, ItemTransportFlow.WITHDRAW, null);
-                    int i = access.length;
-                    for (int j = 0; j< i; ++j){
-                        int k = access[j];
-                        if(tryTakeInItemFromSlot(hopperContainer, slimefunContainer, k, direction, world)){
-                            return;
-                        }
-                    }
-                }
-            }finally {
-                if(override > 0){
-                    CraftBukkit.SPIGOT_CONFIG.hopperAmountSetter(sipigotConfig, originalValue);
-                }
-            }
+        }
 
-    	});
-        
     }
-    @Async
     public boolean tryTakeInItemFromSlot(Object hopper, Object slimefunContainer, int index, Object direction, Object world){
         var itemStack = NMSItem.CONTAINER.getItem(slimefunContainer, index);
         if(!NMSItem.ITEMSTACK.isEmpty(itemStack)){
@@ -160,7 +121,6 @@ public class HopperListener implements Listener {
         }
         return false;
     }
-    @Async
     public Object getConfig(World world){
         return cachedHandledWorld.computeIfAbsent(world, (w)->{
             Object handled = WorldUtils.getHandledWorld((World) w);
@@ -168,7 +128,6 @@ public class HopperListener implements Listener {
         });
     }
 
-    @Async
     public boolean limitPushingSlots(Block hopperBlock, BlockMenu sf){
         Object hopperContainer = LevelUtils.getBlockEntityAsync(hopperBlock, false);
         Object slimefunContainer = CraftBukkit.INVENTORYS.getInventory(sf.getInventory());
@@ -213,7 +172,6 @@ public class HopperListener implements Listener {
         }
         return false;
     }
-    @Async
     public Object addItem(BlockMenu sf, Object hopper, Object target, Object movedItem ){
         int[] access = sf.getPreset().getSlotsAccessedByItemTransport(sf, ItemTransportFlow.INSERT, null);
         int size = access.length;

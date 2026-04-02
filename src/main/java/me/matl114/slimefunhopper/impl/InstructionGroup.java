@@ -18,7 +18,6 @@ import me.matl114.matlib.implement.slimefun.menu.guideMenu.CustomItemGroup;
 import me.matl114.matlib.implement.slimefun.menu.menuGroup.CustomMenuGroup;
 import me.matl114.matlib.slimefunUtils.SlimefunRegistryUtils;
 import me.matl114.matlib.utils.TextUtils;
-import me.matl114.matlib.utils.TextUtils;
 import me.matl114.matlib.utils.inventory.itemStacks.CleanItemStack;
 
 public class InstructionGroup  implements Manager {
