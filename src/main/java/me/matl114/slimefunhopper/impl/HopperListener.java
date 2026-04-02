@@ -19,6 +19,10 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap;
@@ -59,16 +63,53 @@ public class HopperListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     @Async
     public void testSlimefunInventoryHopper(HopperInventorySearchEvent hopper){
-    	Bukkit.getScheduler().runTaskAsynchronously(HopperMain.getInstance(), () -> {
-    		Location loc = hopper.getSearchBlock().getLocation();
-            BlockMenu menu = BlockStorage.getInventory(loc);
-            if(menu != null){
-                if(hopper.getContainerType() == HopperInventorySearchEvent.ContainerType.SOURCE){
-                    limitGrabbingSlots(menu, hopper.getBlock());
-                    hopper.setInventory(EMPTY_INVENTORY);
-                }else {
-                    limitPushingSlots(hopper.getBlock(), menu);
-                    hopper.setInventory(FULL_INVENTORY);
+        Location blockLocation = hopper.getBlock().getLocation();
+        SlimefunBlockData blockData = StorageCacheUtils.getBlock(blockLocation);
+        // check hopperable
+        if(blockData != null){
+            if(SlimefunItem.getById(blockData.getSfId()) instanceof NotHopperable){
+                return;
+            }
+            if(blockData.getBlockMenu() != null){
+                return;
+            }
+        }
+        Location loc = hopper.getSearchBlock().getLocation();
+        BlockMenu menu = StorageCacheUtils.getMenu(loc);
+        if(menu != null){
+            if(hopper.getContainerType() == HopperInventorySearchEvent.ContainerType.SOURCE){
+                limitGrabbingSlots(menu, hopper.getBlock());
+                hopper.setInventory(EMPTY_INVENTORY);
+            }else {
+                limitPushingSlots(hopper.getBlock(), menu);
+                hopper.setInventory(FULL_INVENTORY);
+            }
+        }
+
+    }
+
+    public void limitGrabbingSlots(BlockMenu sf, Block hopperBlock){
+        Object slimefunContainer = CraftBukkit.INVENTORYS.getInventory(sf.getInventory());
+        Object hopperContainer = LevelUtils.getBlockEntityAsync(hopperBlock, false);
+        int originalValue = 1;
+        Object sipigotConfig = null;
+        if(override > 0){
+            sipigotConfig = getConfig(sf.getLocation().getWorld());
+            originalValue = CraftBukkit.SPIGOT_CONFIG.hopperAmountGetter(sipigotConfig);
+            CraftBukkit.SPIGOT_CONFIG.hopperAmountSetter(sipigotConfig, override);
+        }
+        try{
+            if(TILE_ENTITIES.isHopper(hopperContainer)){
+                var world = WorldUtils.getHandledWorld(sf.getLocation().getWorld());
+                var direction = PosEnum.DIR_DOWN;
+                TILE_ENTITIES.hopper$setSkipPullModeEventFire(true);
+                int[] access = sf.getPreset().getSlotsAccessedByItemTransport(sf, ItemTransportFlow.WITHDRAW, null);
+                int i = access.length;
+                for (int j = 0; j< i; ++j){
+                    int k = access[j];
+                    if(tryTakeInItemFromSlot(hopperContainer, slimefunContainer, k, direction, world)){
+                        return;
+                    }
                 }
             }
     	});

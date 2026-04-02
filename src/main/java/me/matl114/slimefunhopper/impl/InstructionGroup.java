@@ -17,7 +17,8 @@ import me.matl114.matlib.core.Manager;
 import me.matl114.matlib.implement.slimefun.menu.guideMenu.CustomItemGroup;
 import me.matl114.matlib.implement.slimefun.menu.menuGroup.CustomMenuGroup;
 import me.matl114.matlib.slimefunUtils.SlimefunRegistryUtils;
-import me.matl114.matlib.utils.AddUtils;
+import me.matl114.matlib.utils.TextUtils;
+import me.matl114.matlib.utils.TextUtils;
 import me.matl114.matlib.utils.inventory.itemStacks.CleanItemStack;
 
 public class InstructionGroup  implements Manager {
@@ -28,20 +29,20 @@ public class InstructionGroup  implements Manager {
         this.pl  = pl;
         this.addToRegistry();
         ItemStack icon = new CleanItemStack(Material.HOPPER,
-            AddUtils.colorRandomString("粘液 漏斗"),
-            "&7by "+AddUtils.colorPseudorandomString("matl114"),
+            TextUtils.colorRandomString("粘液 漏斗"),
+            "&7by "+TextUtils.colorPseudorandomString("matl114"),
             "&7⇨ &a点击查看说明书~"
         );
         ItemStack info1 = new CleanItemStack(
             Material.KNOWLEDGE_BOOK,
-            AddUtils.colorRandomString("说明书"),
+            TextUtils.colorRandomString("说明书"),
             "&7虽然叫粘液漏斗,但本附属将会增加红石有关的特性",
             "&7当前已实现的特性如下:"
         );
         ItemStack info2 = new CleanItemStack(
             Material.HOPPER,
-            AddUtils.colorRandomString("漏斗现可与粘液科技机器交互"),
-            "&7现在漏斗可以直接吸取和输送粘液科技机器中的物品了",
+            TextUtils.colorRandomString("功能: 漏斗将可直接和粘液机器交互"),
+            "&7本附属使漏斗可以直接抓取和推送粘液机器中的物品",
             "&7将漏斗像与原版箱子交互一样放置",
             "&7即可交互粘液机器的槽位",
             "&7其中,当漏斗位于机器下方,抓取机器的时候",
@@ -76,6 +77,11 @@ public class InstructionGroup  implements Manager {
     public InstructionGroup reload() {
         deconstruct();
         return init(pl);
+    }
+
+    @Override
+    public boolean isAutoDisable() {
+        return true;
     }
 
     @Override
